@@ -32,6 +32,19 @@ async function run() {
 
       const toyCollection = client.db("toyDB").collection("robot");
 
+      // find all toy
+      app.get("/toy", async (req, res) => {
+         const search = req.query.search;
+         console.log(search);
+         const query = { toyName: { $regex: search, $options: 'i' } }
+         const options = {
+            sort: { 'price': -1 }
+         }
+         const cursor = toyCollection.find(query, options).limit(20);
+         const result = await cursor.toArray();
+         res.send(result);
+      });
+
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
