@@ -84,6 +84,14 @@ async function run() {
          return res.send(result);
       });
 
+      // insert a toy
+      app.post("/toy", async (req, res) => {
+         const newToy = req.body;
+         console.log(newToy);
+         const result = await toyCollection.insertOne(newToy);
+         res.send(result);
+      });
+
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
